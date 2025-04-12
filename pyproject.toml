@@ -1,0 +1,9 @@
+[project]
+name = "receipt-statement-linker"
+version = "0.1.0"
+description = "Link receipt images to bank statement transactions"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "typer>=0.15.2",
+]
