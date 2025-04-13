@@ -1,8 +1,6 @@
 from litellm.types.utils import ModelResponse
-import json
 from .receipt import Receipt, TranscribedReceipts
 import textwrap
-import os
 import litellm
 
 
