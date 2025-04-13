@@ -22,11 +22,6 @@ async def receipt_to_json(receipts: list[Receipt]):
             - Item name is to be just the name. Do not include quantity in the name. Quantity has its own field.
         """
     ).strip()
-    # user_message = "Here are images of the receipts. Output JSON in order as one contiguous output."
-    messages: list[dict] = [
-        {"content": system_prompt, "role": "system"},
-    ]
-
     receipts_content = [
         {
             "type": "image_url",
@@ -34,7 +29,11 @@ async def receipt_to_json(receipts: list[Receipt]):
         }
         for receipt in receipts
     ]
-    messages.append({"role": "user", "content": receipts_content})
+
+    messages: list[dict] = [
+        {"content": system_prompt, "role": "system"},
+        {"role": "user", "content": receipts_content},
+    ]
     response = await litellm.acompletion(
         model="gemini/gemini-2.0-flash",
         messages=messages,
