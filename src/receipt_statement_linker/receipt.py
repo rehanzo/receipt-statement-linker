@@ -9,11 +9,11 @@ class Receipt:
         self._b64 = None
 
     @property
-    def filepath(self):
+    def filepath(self) -> str:
         return self._filepath
 
     @property
-    def b64(self):
+    def b64(self) -> bytes:
         if not self._b64:
             with open(self._filepath, "rb") as image_file:
                 self._b64 = base64.b64encode(image_file.read())

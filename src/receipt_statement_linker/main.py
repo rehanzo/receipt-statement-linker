@@ -1,5 +1,5 @@
 import argparse
-from .receipt import Receipt
+from .extract import receipts_extract
 
 
 def main():
@@ -12,13 +12,12 @@ def main():
     parser.add_argument(
         "--receipt-output", required=True, help="Filepath to output receipt data"
     )
-
     args = parser.parse_args()
 
     receipt_input_filepaths: list[str] = args.receipt_input
     receipt_output_filepath: str = args.receipt_output
 
-    receipts = [Receipt(filepath) for filepath in receipt_input_filepaths]
+    receipt_extracts = receipts_extract(receipt_input_filepaths)
 
 
 if __name__ == "__main__":
