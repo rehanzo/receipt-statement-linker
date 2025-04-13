@@ -23,14 +23,19 @@ class TranscribedReceipts(BaseModel):
     transcribed_receipts: list[TranscribedReceipt]
 
 
-class Receipt:
+class FileInput:
     def __init__(self, filepath):
         self._filepath: str = filepath
-        self._b64: str | None = None
 
     @property
     def filepath(self) -> str:
         return self._filepath
+
+
+class ImageInput(FileInput):
+    def __init__(self, filepath):
+        super().__init__(filepath)
+        self._b64: str | None = None
 
     @property
     def b64(self) -> str:

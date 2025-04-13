@@ -1,7 +1,7 @@
 import argparse
 import asyncio
 from .extract import receipts_extract
-from .receipt import Receipt
+from .receipt import ImageInput
 
 
 async def main():
@@ -19,7 +19,7 @@ async def main():
     receipt_input_filepaths: list[str] = args.receipt_input
     receipt_output_filepath: str = args.receipt_output
 
-    receipts = [Receipt(filepath) for filepath in receipt_input_filepaths]
+    receipts = [ImageInput(filepath) for filepath in receipt_input_filepaths]
     receipt_extracts = await receipts_extract(receipts)
 
 

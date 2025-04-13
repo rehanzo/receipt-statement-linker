@@ -1,5 +1,5 @@
 from litellm.types.utils import ModelResponse
-from .receipt import Receipt, TranscribedReceipts
+from .receipt import ImageInput, TranscribedReceipts
 import textwrap
 import litellm
 
@@ -8,11 +8,11 @@ litellm.enable_json_schema_validation
 
 
 # TODO: use enum and dispatcher to specify extractor?
-async def receipts_extract(receipts: list[Receipt]):
+async def receipts_extract(receipts: list[ImageInput]):
     return await receipt_to_json(receipts)
 
 
-async def receipt_to_json(receipts: list[Receipt]):
+async def receipt_to_json(receipts: list[ImageInput]):
     system_prompt = textwrap.dedent(
         """
         You are an accurate receipt transcriber. You will be given image(s) of receipt(s). You will convert it to JSON output based on the schema provided.
