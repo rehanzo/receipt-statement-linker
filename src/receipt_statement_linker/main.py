@@ -1,8 +1,10 @@
 import argparse
+import asyncio
 from .extract import receipts_extract
+from .receipt import Receipt
 
 
-def main():
+async def main():
     parser = argparse.ArgumentParser(
         description="Parse receipt images and output data."
     )
@@ -17,8 +19,9 @@ def main():
     receipt_input_filepaths: list[str] = args.receipt_input
     receipt_output_filepath: str = args.receipt_output
 
-    receipt_extracts = receipts_extract(receipt_input_filepaths)
+    receipts = [Receipt(filepath) for filepath in receipt_input_filepaths]
+    receipt_extracts = await receipts_extract(receipts)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
