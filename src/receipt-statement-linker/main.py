@@ -1,4 +1,5 @@
 import argparse
+from .receipt import Receipt
 
 
 def main():
@@ -14,7 +15,10 @@ def main():
 
     args = parser.parse_args()
 
-    print(f"receipt_input={args.receipt_input}, receipt_output={args.receipt_output}")
+    receipt_input_filepaths: list[str] = args.receipt_input
+    receipt_output_filepath: str = args.receipt_output
+
+    receipts = [Receipt(filepath) for filepath in receipt_input_filepaths]
 
 
 if __name__ == "__main__":
