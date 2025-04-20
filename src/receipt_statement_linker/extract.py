@@ -41,7 +41,7 @@ async def receipt_to_json(receipts: list[FileInput]):
         {"role": "user", "content": receipts_content},
     ]
     response = await litellm.acompletion(
-        model="gemini/gemini-2.0-flash",
+        model="gemini/gemini-2.5-flash-preview-04-17",
         messages=messages,
         response_format=TranscribedReceipts,
         temperature=0,
@@ -82,7 +82,7 @@ async def statement_to_json(statements: list[FileInput]):
         {"role": "user", "content": statement_content},
     ]
     response = await litellm.acompletion(
-        model="gemini/gemini-2.0-flash",
+        model="gemini/gemini-2.5-flash-preview-04-17",
         messages=messages,
         response_format=TranscribedStatements,
         temperature=0,
