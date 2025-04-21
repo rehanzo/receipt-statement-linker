@@ -1,11 +1,11 @@
-from dataclasses import dataclass
 from litellm.types.utils import ModelResponse
+from pydantic import BaseModel
 
 from .statement import (
     Transaction,
     TranscribedStatements,
 )
-from .receipt import FileInput, ReceiptEntry, TranscribedReceipt, TranscribedReceipts
+from .receipt import FileInput, TranscribedReceipt, TranscribedReceipts
 import textwrap
 import litellm
 
@@ -103,8 +103,7 @@ async def statement_to_json(statements: list[FileInput]) -> TranscribedStatement
     )
 
 
-@dataclass
-class TransactionReceiptPair:
+class TransactionReceiptPair(BaseModel):
     transaction: Transaction
     receipt: TranscribedReceipt
 
@@ -132,7 +131,9 @@ async def merge_statements_receipts(
 
             elif len(price_match_receipts) == 1:
                 pairs.append(
-                    TransactionReceiptPair(transaction, price_match_receipts[0])
+                    TransactionReceiptPair(
+                        transaction=transaction, receipt=price_match_receipts[0]
+                    )
                 )
 
             else:
@@ -144,7 +145,9 @@ async def merge_statements_receipts(
 
                 if len(name_match_receipts) == 1:
                     pairs.append(
-                        TransactionReceiptPair(transaction, name_match_receipts[0])
+                        TransactionReceiptPair(
+                            transaction=transaction, receipt=name_match_receipts[0]
+                        )
                     )
                 else:
                     # TODO(Rehan): Handle cases where no name match or multiple name matches

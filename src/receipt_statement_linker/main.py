@@ -29,7 +29,9 @@ async def main():
     statement_extracts = await statements_extract(statements)
 
     # merge
-    merged = await merge_statements_receipts(statement_extracts, receipt_extracts)
+    pairs = await merge_statements_receipts(statement_extracts, receipt_extracts)
+
+    pairs_json_strings = [pair.model_dump_json() for pair in pairs]
 
 
 if __name__ == "__main__":
