@@ -1,6 +1,11 @@
 import base64
+import litellm
+import textwrap
+from litellm.types.utils import ModelResponse
 from pydantic import BaseModel
 from datetime import datetime
+
+from .statement import Transaction
 
 
 class ReceiptEntry(BaseModel):
@@ -17,6 +22,43 @@ class TranscribedReceipt(BaseModel):
     items: list[ReceiptEntry]
     subtotal: float
     grand_total: float
+
+    async def vendor_match_transaction_name(self, transaction: Transaction) -> bool:
+        system_prompt = textwrap.dedent(
+            """
+            You are an accurate receipt vendor to statement transaction name matcher. You will be provided a vendor name from a receipt, and a transaction name from a bank statement. You will determine if they refer to the same vendor/merchant. If they do, output "MATCH". If they do not, output "MISMATCH". DO NOT OUTPUT ANYTHING ELSE.
+            """
+        ).strip()
+
+        user_message = textwrap.dedent(
+            f"""
+            <receipt_vendor>
+            {self.vendor}
+            </receipt_vendor>
+
+            <statement_transaction_name>
+            {transaction.name}
+            </statement_transaction_name>
+            """
+        ).strip()
+
+        messages: list[dict] = [
+            {"content": system_prompt, "role": "system"},
+            {"role": "user", "content": user_message},
+        ]
+        response = await litellm.acompletion(
+            model="gemini/gemini-2.0-flash",
+            messages=messages,
+            temperature=0,
+        )
+
+        # COPYPASTA: extract.py
+        # COPYPASTA: receipt_to_json
+        assert isinstance(response, ModelResponse)
+        assert isinstance(response.choices[0], litellm.Choices)
+        assert response.choices[0].message.content is not None
+
+        return response.choices[0].message.content.lower() == "match"
 
 
 class TranscribedReceipts(BaseModel):

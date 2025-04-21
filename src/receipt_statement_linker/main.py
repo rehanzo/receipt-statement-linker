@@ -1,6 +1,6 @@
 import argparse
 import asyncio
-from .extract import receipts_extract, statements_extract
+from .extract import merge_statements_receipts, receipts_extract, statements_extract
 from .receipt import FileInput
 
 
@@ -27,6 +27,9 @@ async def main():
 
     statements = [FileInput(filepath) for filepath in statement_input_filepaths]
     statement_extracts = await statements_extract(statements)
+
+    # merge
+    merged = await merge_statements_receipts(statement_extracts, receipt_extracts)
 
 
 if __name__ == "__main__":
