@@ -1,4 +1,5 @@
 import argparse
+import json
 import asyncio
 from .extract import merge_statements_receipts, receipts_extract, statements_extract
 from .receipt import FileInput
@@ -31,7 +32,10 @@ async def main():
     # merge
     pairs = await merge_statements_receipts(statement_extracts, receipt_extracts)
 
-    pairs_json_strings = [pair.model_dump_json() for pair in pairs]
+    pairs_json = [json.loads(pair.model_dump_json()) for pair in pairs]
+
+    with open("output.json", "w") as f:
+        json.dump(pairs_json, f, indent=4)
 
 
 if __name__ == "__main__":
