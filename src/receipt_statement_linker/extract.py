@@ -105,7 +105,7 @@ async def statement_to_json(statements: list[FileInput]) -> TranscribedStatement
 
 class TransactionReceiptPair(BaseModel):
     transaction: Transaction
-    receipt: TranscribedReceipt
+    receipt: TranscribedReceipt | None
 
 
 async def merge_statements_receipts(
@@ -119,6 +119,7 @@ async def merge_statements_receipts(
 
     for statement in statements.transcribed_statements:
         for transaction in statement.transactions:
+            receipt: TranscribedReceipt | None = None
             price_match_receipts = [
                 receipt
                 for receipt in receipts.transcribed_receipts
@@ -126,15 +127,10 @@ async def merge_statements_receipts(
             ]
 
             if not price_match_receipts:
-                # TODO(Rehan): Handle case where no price match
-                pass
+                receipt = None
 
             elif len(price_match_receipts) == 1:
-                pairs.append(
-                    TransactionReceiptPair(
-                        transaction=transaction, receipt=price_match_receipts[0]
-                    )
-                )
+                receipt = price_match_receipts[0]
 
             else:
                 name_match_receipts = [
@@ -144,13 +140,13 @@ async def merge_statements_receipts(
                 ]
 
                 if len(name_match_receipts) == 1:
-                    pairs.append(
-                        TransactionReceiptPair(
-                            transaction=transaction, receipt=name_match_receipts[0]
-                        )
-                    )
+                    receipt = name_match_receipts[0]
                 else:
                     # TODO(Rehan): Handle cases where no name match or multiple name matches
                     pass
+
+            pairs.append(
+                TransactionReceiptPair(transaction=transaction, receipt=receipt)
+            )
 
     return pairs
