@@ -15,9 +15,9 @@ async def main():
     parser.add_argument(
         "--statement-input", nargs="+", required=True, help="Statement images to parse"
     )
-    # parser.add_argument(
-    #     "--receipt-output", required=True, help="Filepath to output receipt data"
-    # )
+    parser.add_argument(
+        "--receipt-output", required=True, help="Filepath to output receipt data"
+    )
     args = parser.parse_args()
 
     receipt_input_filepaths: list[str] = args.receipt_input
@@ -34,7 +34,7 @@ async def main():
 
     pairs_json = [json.loads(pair.model_dump_json()) for pair in pairs]
 
-    with open("output.json", "w") as f:
+    with open(args.receipt_output, "w") as f:
         json.dump(pairs_json, f, indent=4)
 
 
