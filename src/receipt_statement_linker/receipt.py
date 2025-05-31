@@ -6,12 +6,14 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from .statement import Transaction
+from .classification import Classifications
 
 
 class ReceiptEntry(BaseModel):
     quantity: int
     name: str
     price: float
+    classification: Classifications
 
 
 # TODO: deal with discrepancies between subtotal and sum of items
