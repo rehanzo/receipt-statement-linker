@@ -1,7 +1,7 @@
 from enum import StrEnum
 
 
-DEFAULT_CLASSIFICATIONS = [
+DEFAULT_CATEGORIES = [
     "GROCERIES",
     "EATING_OUT",
     "TRANSPORTATION",
@@ -15,7 +15,7 @@ DEFAULT_CLASSIFICATIONS = [
 ]
 
 
-def set_classifications_enum(
+def set_categories_enum(
     classifications_list: list[str] | None = None,
 ) -> type[StrEnum]:
-    return StrEnum("Classifications", classifications_list or DEFAULT_CLASSIFICATIONS)
+    return StrEnum("Classifications", classifications_list or DEFAULT_CATEGORIES)

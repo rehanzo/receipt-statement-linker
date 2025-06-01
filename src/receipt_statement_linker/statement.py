@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, create_model
 from datetime import datetime
 
-from .classification import set_classifications_enum
+from .categories import set_categories_enum
 
 
 class Transaction(BaseModel):
@@ -22,13 +22,13 @@ class TranscribedStatements(BaseModel):
 
 
 def get_transcribed_statements_class(
-    classifications_list: list[str] | None,
+    categories_list: list[str] | None,
 ) -> type[TranscribedStatements]:
     transaction_class = create_model(
         "Transaction",
-        classification=(
-            set_classifications_enum(classifications_list),
-            Field(description="Transaction classification"),
+        category=(
+            set_categories_enum(categories_list),
+            Field(...),
         ),
         __base__=Transaction,
     )

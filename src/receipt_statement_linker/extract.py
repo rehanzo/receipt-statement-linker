@@ -61,13 +61,13 @@ async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
 
 
 async def statements_extract(
-    statements: list[FileInput], classifications_list: list[str] | None
+    statements: list[FileInput], categories_list: list[str] | None
 ) -> TranscribedStatements:
-    return await statement_to_json(statements, classifications_list)
+    return await statement_to_json(statements, categories_list)
 
 
 async def statement_to_json(
-    statements: list[FileInput], classifications_list: list[str] | None
+    statements: list[FileInput], categories_list: list[str] | None
 ) -> TranscribedStatements:
     system_prompt = textwrap.dedent(
         """
@@ -91,9 +91,7 @@ async def statement_to_json(
         {"role": "user", "content": statement_content},
     ]
 
-    transcribed_statements_class = get_transcribed_statements_class(
-        classifications_list
-    )
+    transcribed_statements_class = get_transcribed_statements_class(categories_list)
     response = await litellm.acompletion(
         model="gemini/gemini-2.0-flash",
         messages=messages,
