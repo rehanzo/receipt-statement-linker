@@ -1,9 +1,11 @@
 from litellm.types.utils import ModelResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, SerializeAsAny
+
 
 from .statement import (
     Transaction,
     TranscribedStatements,
+    get_transcribed_statements_class,
 )
 from .receipt import FileInput, TranscribedReceipt, TranscribedReceipts
 import textwrap
@@ -58,11 +60,15 @@ async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
     return TranscribedReceipts.model_validate_json(response.choices[0].message.content)
 
 
-async def statements_extract(statements: list[FileInput]) -> TranscribedStatements:
-    return await statement_to_json(statements)
+async def statements_extract(
+    statements: list[FileInput], classifications_list: list[str] | None
+) -> TranscribedStatements:
+    return await statement_to_json(statements, classifications_list)
 
 
-async def statement_to_json(statements: list[FileInput]) -> TranscribedStatements:
+async def statement_to_json(
+    statements: list[FileInput], classifications_list: list[str] | None
+) -> TranscribedStatements:
     system_prompt = textwrap.dedent(
         """
         You are an accurate bank statement transcriber. You will be given bank statement(s). You will convert it to JSON output based on the schema provided.
@@ -84,10 +90,14 @@ async def statement_to_json(statements: list[FileInput]) -> TranscribedStatement
         {"content": system_prompt, "role": "system"},
         {"role": "user", "content": statement_content},
     ]
+
+    transcribed_statements_class = get_transcribed_statements_class(
+        classifications_list
+    )
     response = await litellm.acompletion(
         model="gemini/gemini-2.0-flash",
         messages=messages,
-        response_format=TranscribedStatements,
+        response_format=transcribed_statements_class,
         temperature=0,
     )
 
@@ -98,14 +108,14 @@ async def statement_to_json(statements: list[FileInput]) -> TranscribedStatement
     assert isinstance(response.choices[0], litellm.Choices)
     assert response.choices[0].message.content is not None
 
-    return TranscribedStatements.model_validate_json(
+    return transcribed_statements_class.model_validate_json(
         response.choices[0].message.content
     )
 
 
 class TransactionReceiptPair(BaseModel):
-    transaction: Transaction
-    receipt: TranscribedReceipt | None
+    transaction: SerializeAsAny[Transaction]
+    receipt: SerializeAsAny[TranscribedReceipt] | None
 
 
 async def merge_statements_receipts(
