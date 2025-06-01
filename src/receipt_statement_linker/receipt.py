@@ -2,8 +2,10 @@ import base64
 import litellm
 import textwrap
 from litellm.types.utils import ModelResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, create_model
 from datetime import datetime
+
+from .categories import set_categories_enum
 
 from .statement import Transaction
 
@@ -63,6 +65,32 @@ class TranscribedReceipt(BaseModel):
 
 class TranscribedReceipts(BaseModel):
     transcribed_receipts: list[TranscribedReceipt]
+
+
+def get_transcribed_receipts_class(
+    categories_list: list[str] | None,
+) -> type[TranscribedReceipts]:
+    receipt_entry_class = create_model(
+        "ReceiptEntry",
+        category=(
+            set_categories_enum(categories_list),
+            Field(...),
+        ),
+        __base__=ReceiptEntry,
+    )
+
+    transcribed_receipt_class = create_model(
+        "TranscribedReceipt",
+        items=(list[receipt_entry_class], Field(...)),
+        __base__=TranscribedReceipt,
+    )
+
+    transcribed_receipts_class = create_model(
+        "TranscribedReceipts",
+        transcribed_receipts=(list[transcribed_receipt_class], Field(...)),
+        __base__=TranscribedReceipts,
+    )
+    return transcribed_receipts_class
 
 
 class FileInput:

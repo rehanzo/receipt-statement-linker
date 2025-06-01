@@ -30,7 +30,7 @@ async def main():
     statement_input_filepaths: list[str] = args.statement_input
 
     receipts = [FileInput(filepath) for filepath in receipt_input_filepaths]
-    receipt_extracts = await receipts_extract(receipts)
+    receipt_extracts = await receipts_extract(receipts, args.categories)
 
     statements = [FileInput(filepath) for filepath in statement_input_filepaths]
     statement_extracts = await statements_extract(statements, args.categories)
