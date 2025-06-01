@@ -1,5 +1,7 @@
 from litellm.types.utils import ModelResponse
 from pydantic import BaseModel
+import imghdr
+import base64
 
 from .statement import (
     Transaction,
@@ -18,7 +20,16 @@ async def receipts_extract(receipts: list[FileInput]) -> TranscribedReceipts:
     return await receipt_to_json(receipts)
 
 
-async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
+def get_image_mimetype(b64: str) -> str | None:
+    image_bytes = base64.b64decode(b64)
+    image_type = imghdr.what(None, h=image_bytes)
+    if image_type:
+        return f"image/{image_type}"
+
+
+async def receipt_to_json(
+    receipts: list[FileInput], categories_list: list[str] | None
+) -> TranscribedReceipts:
     system_prompt = textwrap.dedent(
         """
         You are an accurate receipt transcriber. You will be given image(s) of receipt(s). You will convert it to JSON output based on the schema provided.
@@ -28,14 +39,19 @@ async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
             - Item name is to be just the name. Do not include quantity in the name. Quantity has its own field.
         """
     ).strip()
+
+    image_mimetypes = [get_image_mimetype(receipt.b64) for receipt in receipts]
+    for image_mimetype, receipt in zip(image_mimetypes, receipts):
+        if not image_mimetype:
+            raise ValueError(f"{receipt.filepath} does not have valid image mimetype")
     receipts_content = [
         {
             "type": "image_url",
             "image_url": {
-                "url": f"data:image/jpg;base64,{receipt.b64}"
+                "url": f"data:{image_mimetype};base64,{receipt.b64}"
             },  # TODO: not always jpeg
         }
-        for receipt in receipts
+        for receipt, image_mimetype in zip(receipts, image_mimetypes)
     ]
 
     messages: list[dict] = [
@@ -49,7 +65,7 @@ async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
         temperature=0,
     )
 
-    # TODO: Better way to work around this for type checking? or is this just an unfortunate design decision by litellm??
+    # NOTE(Rehan):is there a better way to work around this for type checking? or is this just an unfortunate design decision by litellm??
     # response can be ModelResponse or CustomStreamWrapper, latter doesn't have `choices` field...
     assert isinstance(response, ModelResponse)
     assert isinstance(response.choices[0], litellm.Choices)
@@ -92,7 +108,7 @@ async def statement_to_json(statements: list[FileInput]) -> TranscribedStatement
     )
 
     # COPYPASTA: receipt_to_json
-    # TODO: Better way to work around this for type checking? or is this just an unfortunate design decision by litellm??
+    # NOTE(Rehan):is there a better way to work around this for type checking? or is this just an unfortunate design decision by litellm??
     # response can be ModelResponse or CustomStreamWrapper, latter doesn't have `choices` field...
     assert isinstance(response, ModelResponse)
     assert isinstance(response.choices[0], litellm.Choices)
@@ -142,7 +158,7 @@ async def merge_statements_receipts(
                 if len(name_match_receipts) == 1:
                     receipt = name_match_receipts[0]
                 else:
-                    # TODO(Rehan): Handle cases where no name match or multiple name matches
+                    # NOTE(Rehan): Skip cases where no name match or multiple name matches
                     pass
 
             pairs.append(
