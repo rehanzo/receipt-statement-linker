@@ -1,21 +1,14 @@
 from enum import StrEnum
 
 
-DEFAULT_CLASSIFICATIONS = [
-    "GROCERIES",
-    "EATING_OUT",
-    "TRANSPORTATION",
-    "HOUSING",
-    "HEALTHCARE",
-    "PERSONAL_CARE",
-    "ENTERTAINMENT",
-    "SAVINGS_AND_INVESTMENTS",
-    "DEBT_PAYMENT",
-    "MISC",
-]
-
-
-def set_classifications_enum(
-    classifications_list: list[str] | None = None,
-) -> type[StrEnum]:
-    return StrEnum("Classifications", classifications_list or DEFAULT_CLASSIFICATIONS)
+class Classifications(StrEnum):
+    GROCERIES = "GROCERIES"
+    EATING_OUT = "EATING_OUT"
+    TRANSPORTATION = "TRANSPORTATION"
+    HOUSING = "HOUSING"
+    HEALTHCARE = "HEALTHCARE"
+    PERSONAL_CARE = "PERSONAL_CARE"
+    ENTERTAINMENT = "ENTERTAINMENT"
+    SAVINGS_AND_INVESTMENTS = "SAVINGS_AND_INVESTMENTS"
+    DEBT_PAYMENT = "DEBT_PAYMENT"
+    MISC = "MISC"

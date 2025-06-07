@@ -18,12 +18,6 @@ async def main():
     parser.add_argument(
         "--receipt-output", required=True, help="Filepath to output receipt data"
     )
-    parser.add_argument(
-        "--categories",
-        nargs="+",
-        required=False,
-        help="List of categories",
-    )
     args = parser.parse_args()
 
     receipt_input_filepaths: list[str] = args.receipt_input
@@ -33,7 +27,7 @@ async def main():
     receipt_extracts = await receipts_extract(receipts)
 
     statements = [FileInput(filepath) for filepath in statement_input_filepaths]
-    statement_extracts = await statements_extract(statements, args.categories)
+    statement_extracts = await statements_extract(statements)
 
     # merge
     pairs = await merge_statements_receipts(statement_extracts, receipt_extracts)
