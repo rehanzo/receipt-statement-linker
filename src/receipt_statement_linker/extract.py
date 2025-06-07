@@ -27,9 +27,7 @@ def get_image_mimetype(b64: str) -> str | None:
         return f"image/{image_type}"
 
 
-async def receipt_to_json(
-    receipts: list[FileInput], categories_list: list[str] | None
-) -> TranscribedReceipts:
+async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
     system_prompt = textwrap.dedent(
         """
         You are an accurate receipt transcriber. You will be given image(s) of receipt(s). You will convert it to JSON output based on the schema provided.

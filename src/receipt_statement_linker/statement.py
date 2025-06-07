@@ -1,15 +1,12 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-from .classification import Classifications
-
 
 class Transaction(BaseModel):
     name: str
     datetime: datetime
     withdrawl_amount: float | None
     deposit_amount: float | None
-    classification: Classifications
 
 
 class TranscribedStatement(BaseModel):
