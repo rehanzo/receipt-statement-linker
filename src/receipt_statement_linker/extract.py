@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import TypeVar
 from litellm.types.utils import ModelResponse
 from pydantic import BaseModel
 import imghdr
@@ -120,6 +122,26 @@ async def statement_to_json(statements: list[FileInput]) -> TranscribedStatement
 class TransactionReceiptPair(BaseModel):
     transaction: Transaction
     receipt: TranscribedReceipt | None
+
+    def __init__(self, transaction: Transaction, receipt: TranscribedReceipt | None):
+        self.transaction = transaction
+        self.receipt = receipt
+
+    @staticmethod
+    def extract_transactions(pairs: list[TransactionReceiptPair]) -> list[Transaction]:
+        return [pair.transaction for pair in pairs]
+
+    @staticmethod
+    def extract_receipts(
+        pairs: list[TransactionReceiptPair],
+    ) -> list[TranscribedReceipt | None]:
+        return [pair.receipt for pair in pairs]
+
+    @classmethod
+    def from_transaction_receipt_pair(
+        cls, transaction: Transaction, receipt: TranscribedReceipt
+    ):
+        return cls(transaction, receipt)
 
 
 async def merge_statements_receipts(
