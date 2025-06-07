@@ -7,12 +7,7 @@ from .statement import (
     TranscribedStatements,
     get_transcribed_statements_class,
 )
-from .receipt import (
-    FileInput,
-    TranscribedReceipt,
-    TranscribedReceipts,
-    get_transcribed_receipts_class,
-)
+from .receipt import FileInput, TranscribedReceipt, TranscribedReceipts
 import textwrap
 import litellm
 
@@ -21,15 +16,11 @@ litellm.enable_json_schema_validation
 
 
 # TODO: use enum and dispatcher to specify extractor?
-async def receipts_extract(
-    receipts: list[FileInput], categories_list: list[str] | None
-) -> TranscribedReceipts:
-    return await receipt_to_json(receipts, categories_list)
+async def receipts_extract(receipts: list[FileInput]) -> TranscribedReceipts:
+    return await receipt_to_json(receipts)
 
 
-async def receipt_to_json(
-    receipts: list[FileInput], categories_list: list[str] | None
-) -> TranscribedReceipts:
+async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
     system_prompt = textwrap.dedent(
         """
         You are an accurate receipt transcriber. You will be given image(s) of receipt(s). You will convert it to JSON output based on the schema provided.
@@ -53,11 +44,10 @@ async def receipt_to_json(
         {"content": system_prompt, "role": "system"},
         {"role": "user", "content": receipts_content},
     ]
-    transcribed_receipts_class = get_transcribed_receipts_class(categories_list)
     response = await litellm.acompletion(
         model="gemini/gemini-2.0-flash",
         messages=messages,
-        response_format=transcribed_receipts_class,
+        response_format=TranscribedReceipts,
         temperature=0,
     )
 
@@ -67,9 +57,7 @@ async def receipt_to_json(
     assert isinstance(response.choices[0], litellm.Choices)
     assert response.choices[0].message.content is not None
 
-    return transcribed_receipts_class.model_validate_json(
-        response.choices[0].message.content
-    )
+    return TranscribedReceipts.model_validate_json(response.choices[0].message.content)
 
 
 async def statements_extract(
