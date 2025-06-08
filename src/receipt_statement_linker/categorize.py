@@ -1,7 +1,10 @@
 from enum import Enum, StrEnum, auto
+import textwrap
+import litellm
 from typing import Any, Generic, TypeVar
 
-from pydantic import BaseModel, model_serializer
+from litellm.types.utils import ModelResponse
+from pydantic import BaseModel, create_model, model_serializer
 
 from .receipt import Receipt, ReceiptEntry, TranscribedReceipt
 from .statement import Transaction
@@ -78,14 +81,16 @@ class CategorizedTransactionReceiptPair(BaseModel):
         return cls(transaction=transaction, receipt=receipt)
 
 
-def categorize_pairs(
+async def categorize_pairs(
     pairs: list[TransactionReceiptPair], categories_enum: type[Enum]
 ) -> list[CategorizedTransactionReceiptPair]:
     transactions, receipts = (
         TransactionReceiptPair.extract_transactions(pairs),
         TransactionReceiptPair.extract_receipts(pairs),
     )
-    categorized_transactions = categorize_transactions(transactions, categories_enum)
+    categorized_transactions = await categorize_transactions(
+        transactions, categories_enum
+    )
     categorized_receipts = categorize_receipts(receipts, categories_enum)
 
     return [
@@ -100,7 +105,30 @@ class PlaceholderEnum(StrEnum):
     TEST = auto()
 
 
-def categorize_transactions(
+class Category(BaseModel):
+    index: int
+    category: Enum
+
+
+class Categories(BaseModel):
+    categories: list
+
+
+def get_categories_basemodel(categories_enum: type[Enum]) -> type[Categories]:
+    category_basemodel = create_model(
+        "Category",
+        index=int,
+        category=categories_enum,
+        __base__=Category,
+    )
+    return create_model(
+        "Categories",
+        categories=list[category_basemodel],
+        __base__=Categories,
+    )
+
+
+async def categorize_transactions(
     # NOTE(Rehan): skeleton, need to set up proper categorization
     # plan:
     # - send in with indicies
@@ -109,9 +137,45 @@ def categorize_transactions(
     transactions: list[Transaction],
     categories_enum: type[Enum],
 ) -> list[Categorized[Transaction]]:
+    categories_basemodel = get_categories_basemodel(categories_enum)
+    # system_prompt = textwrap.dedent(
+    #     """
+    #     You are an accurate receipt transcriber. You will be given image(s) of receipt(s). You will convert it to JSON output based on the schema provided.
+
+    #     NOTES:
+    #         - Ensure your datetime value is correct and in ISO 8601 format (YYYY-MM-DD HH:MM:SS.sssZ)
+    #         - Item name is to be just the name. Do not include quantity in the name. Quantity has its own field.
+    #     """
+    # ).strip()
+    system_prompt = textwrap.dedent(
+        """
+        You are an accurate categorizer. You will be provided a transaction from a bank statement. You will categorize it based on the JSON schema provided.
+        """
+    ).strip()
+    user_message = "\n\n".join(
+        f"<index>\n{i}\n</index>\n<transaction>\n{transaction.model_dump_json()}\n</transaction"
+        for i, transaction in enumerate(transactions, start=1)
+    )
+    messages: list[dict] = [
+        {"content": system_prompt, "role": "system"},
+        {"role": "user", "content": user_message},
+    ]
+    response = await litellm.acompletion(
+        model="gemini/gemini-2.0-flash",
+        messages=messages,
+        response_format=categories_basemodel,
+        temperature=0,
+    )
+    assert isinstance(response, ModelResponse)
+    assert isinstance(response.choices[0], litellm.Choices)
+    assert response.choices[0].message.content is not None
+
+    validated_categories = categories_basemodel.model_validate_json(
+        response.choices[0].message.content
+    )
     return [
-        Categorized(content=transaction, category=PlaceholderEnum.TEST)
-        for transaction in transactions
+        Categorized(content=transaction, category=category.category)
+        for transaction, category in zip(transactions, validated_categories.categories)
     ]
 
 

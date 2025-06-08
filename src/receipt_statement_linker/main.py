@@ -47,7 +47,7 @@ async def main():
     pairs = await merge_statements_receipts(statement_extracts, receipt_extracts)
 
     if args.categorize:
-        pairs = categorize_pairs(pairs, set_categories_enum(args.categories))
+        pairs = await categorize_pairs(pairs, set_categories_enum(args.categories))
 
     pairs_json = [json.loads(pair.model_dump_json()) for pair in pairs]
 
