@@ -91,7 +91,7 @@ async def categorize_pairs(
     categorized_transactions = await categorize_transactions(
         transactions, categories_enum
     )
-    categorized_receipts = categorize_receipts(receipts, categories_enum)
+    categorized_receipts = await categorize_receipts(receipts, categories_enum)
 
     return [
         CategorizedTransactionReceiptPair.from_transaction_receipt_pair(
@@ -111,7 +111,7 @@ class Category(BaseModel):
 
 
 class Categories(BaseModel):
-    categories: list
+    categories: list[Category]
 
 
 def get_categories_basemodel(categories_enum: type[Enum]) -> type[Categories]:
@@ -138,22 +138,13 @@ async def categorize_transactions(
     categories_enum: type[Enum],
 ) -> list[Categorized[Transaction]]:
     categories_basemodel = get_categories_basemodel(categories_enum)
-    # system_prompt = textwrap.dedent(
-    #     """
-    #     You are an accurate receipt transcriber. You will be given image(s) of receipt(s). You will convert it to JSON output based on the schema provided.
-
-    #     NOTES:
-    #         - Ensure your datetime value is correct and in ISO 8601 format (YYYY-MM-DD HH:MM:SS.sssZ)
-    #         - Item name is to be just the name. Do not include quantity in the name. Quantity has its own field.
-    #     """
-    # ).strip()
     system_prompt = textwrap.dedent(
         """
-        You are an accurate categorizer. You will be provided a transaction from a bank statement. You will categorize it based on the JSON schema provided.
+        You are an accurate categorizer. You will be provided transactions from a bank statement. You will categorize them based on the JSON schema provided.
         """
     ).strip()
     user_message = "\n\n".join(
-        f"<index>\n{i}\n</index>\n<transaction>\n{transaction.model_dump_json()}\n</transaction"
+        f"<index>\n{i}\n</index>\n<transaction>\n{transaction.model_dump_json()}\n</transaction>"
         for i, transaction in enumerate(transactions, start=1)
     )
     messages: list[dict] = [
@@ -179,7 +170,7 @@ async def categorize_transactions(
     ]
 
 
-def categorize_receipts(
+async def categorize_receipts(
     receipts: list[TranscribedReceipt | None], categories_enum: type[Enum]
 ) -> list[CategorizedReceipt | None]:
     # NOTE(Rehan): skeleton, need to set up proper categorization
@@ -187,15 +178,45 @@ def categorize_receipts(
     # - send in with indicies
     # - structured output with list of basemodel that has index and categorization fields to fill
     # - might have to do that thing I did before with creating new base model on the fly to use dynamic enum
+    categories_basemodel = get_categories_basemodel(categories_enum)
     categorized_receipts = []
-    for receipt in receipts:
+    for i, receipt in enumerate(receipts):
         if receipt is None:
             categorized_receipts.append(receipt)
             continue
 
+        system_prompt = textwrap.dedent(
+            """
+        You are an accurate categorizer. You will be provided receipt entries. You will categorize them based on the JSON schema provided.
+        """
+        ).strip()
+        receipt_input = [
+            f"<index>\n{i}\n</index>\n<vendor>\n{receipt.vendor}\n</vendor>\n<receipt_entry>\n{receipt_entry.model_dump_json()}\n</receipt_entry>"
+            for i, receipt_entry in enumerate(receipt.items, start=1)
+        ]
+        user_message = "\n\n".join(
+            receipt_str for receipt_str in receipt_input if receipt_str
+        )
+        messages: list[dict] = [
+            {"content": system_prompt, "role": "system"},
+            {"role": "user", "content": user_message},
+        ]
+        response = await litellm.acompletion(
+            model="gemini/gemini-2.0-flash",
+            messages=messages,
+            response_format=categories_basemodel,
+            temperature=0,
+        )
+        assert isinstance(response, ModelResponse)
+        assert isinstance(response.choices[0], litellm.Choices)
+        assert response.choices[0].message.content is not None
+        validated_categories = categories_basemodel.model_validate_json(
+            response.choices[0].message.content
+        )
+
         categorized_entries = [
-            Categorized(content=item, category=PlaceholderEnum.TEST)
-            for item in receipt.items
+            Categorized(content=item, category=category.category)
+            for item, category in zip(receipt.items, validated_categories.categories)
         ]
 
         categorized_receipts.append(
