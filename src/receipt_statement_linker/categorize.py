@@ -1,3 +1,4 @@
+import asyncio
 from enum import Enum, StrEnum, auto
 import textwrap
 import litellm
@@ -129,11 +130,6 @@ def get_categories_basemodel(categories_enum: type[Enum]) -> type[Categories]:
 
 
 async def categorize_transactions(
-    # NOTE(Rehan): skeleton, need to set up proper categorization
-    # plan:
-    # - send in with indicies
-    # - structured output with list of basemodel that has index and categorization fields to fill
-    # - might have to do that thing I did before with creating new base model on the fly to use dynamic enum
     transactions: list[Transaction],
     categories_enum: type[Enum],
 ) -> list[Categorized[Transaction]]:
@@ -173,53 +169,50 @@ async def categorize_transactions(
 async def categorize_receipts(
     receipts: list[TranscribedReceipt | None], categories_enum: type[Enum]
 ) -> list[CategorizedReceipt | None]:
-    # NOTE(Rehan): skeleton, need to set up proper categorization
-    # plan:
-    # - send in with indicies
-    # - structured output with list of basemodel that has index and categorization fields to fill
-    # - might have to do that thing I did before with creating new base model on the fly to use dynamic enum
     categories_basemodel = get_categories_basemodel(categories_enum)
-    categorized_receipts = []
-    for i, receipt in enumerate(receipts):
-        if receipt is None:
-            categorized_receipts.append(receipt)
-            continue
+    return await asyncio.gather(
+        *(categorize_receipt(receipt, categories_basemodel) for receipt in receipts)
+    )
 
-        system_prompt = textwrap.dedent(
-            """
+
+async def categorize_receipt(
+    receipt: TranscribedReceipt | None, categories_basemodel: type[Categories]
+) -> CategorizedReceipt | None:
+    if receipt is None:
+        return None
+
+    system_prompt = textwrap.dedent(
+        """
         You are an accurate categorizer. You will be provided receipt entries. You will categorize them based on the JSON schema provided.
         """
-        ).strip()
-        receipt_input = [
-            f"<index>\n{i}\n</index>\n<vendor>\n{receipt.vendor}\n</vendor>\n<receipt_entry>\n{receipt_entry.model_dump_json()}\n</receipt_entry>"
-            for i, receipt_entry in enumerate(receipt.items, start=1)
-        ]
-        user_message = "\n\n".join(
-            receipt_str for receipt_str in receipt_input if receipt_str
-        )
-        messages: list[dict] = [
-            {"content": system_prompt, "role": "system"},
-            {"role": "user", "content": user_message},
-        ]
-        response = await litellm.acompletion(
-            model="gemini/gemini-2.0-flash",
-            messages=messages,
-            response_format=categories_basemodel,
-            temperature=0,
-        )
-        assert isinstance(response, ModelResponse)
-        assert isinstance(response.choices[0], litellm.Choices)
-        assert response.choices[0].message.content is not None
-        validated_categories = categories_basemodel.model_validate_json(
-            response.choices[0].message.content
-        )
+    ).strip()
+    receipt_input = [
+        f"<index>\n{i}\n</index>\n<vendor>\n{receipt.vendor}\n</vendor>\n<receipt_entry>\n{receipt_entry.model_dump_json()}\n</receipt_entry>"
+        for i, receipt_entry in enumerate(receipt.items, start=1)
+    ]
+    user_message = "\n\n".join(
+        receipt_str for receipt_str in receipt_input if receipt_str
+    )
+    messages: list[dict] = [
+        {"content": system_prompt, "role": "system"},
+        {"role": "user", "content": user_message},
+    ]
+    response = await litellm.acompletion(
+        model="gemini/gemini-2.0-flash",
+        messages=messages,
+        response_format=categories_basemodel,
+        temperature=0,
+    )
+    assert isinstance(response, ModelResponse)
+    assert isinstance(response.choices[0], litellm.Choices)
+    assert response.choices[0].message.content is not None
+    validated_categories = categories_basemodel.model_validate_json(
+        response.choices[0].message.content
+    )
 
-        categorized_entries = [
-            Categorized(content=item, category=category.category)
-            for item, category in zip(receipt.items, validated_categories.categories)
-        ]
+    categorized_entries = [
+        Categorized(content=item, category=category.category)
+        for item, category in zip(receipt.items, validated_categories.categories)
+    ]
 
-        categorized_receipts.append(
-            CategorizedReceipt.from_transcribed_receipt(receipt, categorized_entries)
-        )
-    return categorized_receipts
+    return CategorizedReceipt.from_transcribed_receipt(receipt, categorized_entries)
