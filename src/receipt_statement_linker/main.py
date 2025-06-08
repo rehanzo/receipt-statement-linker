@@ -1,6 +1,8 @@
 import argparse
 import json
 import asyncio
+
+from .categorize import categorize_pairs, set_categories_enum
 from .extract import merge_statements_receipts, receipts_extract, statements_extract
 from .receipt import FileInput
 
@@ -18,6 +20,18 @@ async def main():
     parser.add_argument(
         "--receipt-output", required=True, help="Filepath to output receipt data"
     )
+    parser.add_argument(
+        "--categorize",
+        action="store_true",
+        help="Turn categorization on",
+    )
+    parser.add_argument(
+        "--categories",
+        nargs="+",
+        required=False,
+        help="List of categories",
+    )
+
     args = parser.parse_args()
 
     receipt_input_filepaths: list[str] = args.receipt_input
@@ -31,6 +45,9 @@ async def main():
 
     # merge
     pairs = await merge_statements_receipts(statement_extracts, receipt_extracts)
+
+    if args.categorize:
+        pairs = categorize_pairs(pairs, set_categories_enum(args.categories))
 
     pairs_json = [json.loads(pair.model_dump_json()) for pair in pairs]
 

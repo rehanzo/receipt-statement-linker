@@ -1,9 +1,11 @@
-from __future__ import annotations
 from typing import TypeVar
 from litellm.types.utils import ModelResponse
 from pydantic import BaseModel
 import imghdr
 import base64
+
+from .categorize import Categorized
+from .pair import TransactionReceiptPair
 
 from .statement import (
     Transaction,
@@ -123,10 +125,6 @@ class TransactionReceiptPair(BaseModel):
     transaction: Transaction
     receipt: TranscribedReceipt | None
 
-    def __init__(self, transaction: Transaction, receipt: TranscribedReceipt | None):
-        self.transaction = transaction
-        self.receipt = receipt
-
     @staticmethod
     def extract_transactions(pairs: list[TransactionReceiptPair]) -> list[Transaction]:
         return [pair.transaction for pair in pairs]
@@ -141,7 +139,7 @@ class TransactionReceiptPair(BaseModel):
     def from_transaction_receipt_pair(
         cls, transaction: Transaction, receipt: TranscribedReceipt
     ):
-        return cls(transaction, receipt)
+        return cls(transaction=transaction, receipt=receipt)
 
 
 async def merge_statements_receipts(

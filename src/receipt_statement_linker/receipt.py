@@ -14,14 +14,17 @@ class ReceiptEntry(BaseModel):
     price: float
 
 
-# TODO: deal with discrepancies between subtotal and sum of items
-# need to think about if we should error, or warn, or something else??
-class TranscribedReceipt(BaseModel):
+class Receipt(BaseModel):
     vendor: str
     datetime: datetime
-    items: list[ReceiptEntry]
     subtotal: float
     grand_total: float
+
+
+# TODO: deal with discrepancies between subtotal and sum of items
+# need to think about if we should error, or warn, or something else??
+class TranscribedReceipt(Receipt):
+    items: list[ReceiptEntry]
 
     async def vendor_match_transaction_name(self, transaction: Transaction) -> bool:
         system_prompt = textwrap.dedent(
