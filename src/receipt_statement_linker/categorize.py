@@ -1,5 +1,7 @@
 import asyncio
 from enum import Enum, StrEnum, auto
+import os
+from pathlib import Path
 import textwrap
 import litellm
 from typing import Any, Generic, TypeVar
@@ -21,6 +23,7 @@ DEFAULT_CATEGORIES = [
     "ENTERTAINMENT",
     "SAVINGS_AND_INVESTMENTS",
     "DEBT_PAYMENT",
+    "UTILITIES",
     "MISC",
 ]
 
@@ -129,16 +132,41 @@ def get_categories_basemodel(categories_enum: type[Enum]) -> type[Categories]:
     )
 
 
+def get_user_notes() -> str:
+    xdg_data_home = os.environ.get("XDG_DATA_HOME")
+    base_dir = (
+        Path(xdg_data_home) if xdg_data_home else Path.home() / ".local" / "share"
+    )
+
+    app_dir = base_dir / "receipt_statement_linker"
+    app_dir.mkdir(parents=True, exist_ok=True)
+
+    instructions_file = app_dir / "user_instructions"
+
+    try:
+        notes = instructions_file.read_text(encoding="utf-8")
+
+        return f"# NOTES:\n{notes}"
+    except FileNotFoundError:
+        return ""
+
+
+def get_statement_categorize_prompt() -> str:
+    return textwrap.dedent(
+        f"""
+        You are an accurate categorizer. You will be provided transactions from a bank statement. You will categorize them based on the JSON schema provided.
+
+        {get_user_notes()}
+        """
+    ).strip()
+
+
 async def categorize_transactions(
     transactions: list[Transaction],
     categories_enum: type[Enum],
 ) -> list[Categorized[Transaction]]:
     categories_basemodel = get_categories_basemodel(categories_enum)
-    system_prompt = textwrap.dedent(
-        """
-        You are an accurate categorizer. You will be provided transactions from a bank statement. You will categorize them based on the JSON schema provided.
-        """
-    ).strip()
+    system_prompt = get_statement_categorize_prompt()
     user_message = "\n\n".join(
         f"<index>\n{i}\n</index>\n<transaction>\n{transaction.model_dump_json()}\n</transaction>"
         for i, transaction in enumerate(transactions, start=1)
@@ -166,6 +194,16 @@ async def categorize_transactions(
     ]
 
 
+def get_receipt_categorize_prompt() -> str:
+    return textwrap.dedent(
+        f"""
+        You are an accurate categorizer. You will be provided receipt entries. You will categorize them based on the JSON schema provided.
+
+        {get_user_notes()}
+        """
+    ).strip()
+
+
 async def categorize_receipts(
     receipts: list[TranscribedReceipt | None], categories_enum: type[Enum]
 ) -> list[CategorizedReceipt | None]:
@@ -181,11 +219,7 @@ async def categorize_receipt(
     if receipt is None:
         return None
 
-    system_prompt = textwrap.dedent(
-        """
-        You are an accurate categorizer. You will be provided receipt entries. You will categorize them based on the JSON schema provided.
-        """
-    ).strip()
+    system_prompt = get_receipt_categorize_prompt()
     receipt_input = [
         f"<index>\n{i}\n</index>\n<vendor>\n{receipt.vendor}\n</vendor>\n<receipt_entry>\n{receipt_entry.model_dump_json()}\n</receipt_entry>"
         for i, receipt_entry in enumerate(receipt.items, start=1)
