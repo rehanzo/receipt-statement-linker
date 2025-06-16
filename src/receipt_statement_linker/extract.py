@@ -1,14 +1,9 @@
-from typing import TypeVar
 from litellm.types.utils import ModelResponse
-from pydantic import BaseModel
-import imghdr
-import base64
+import mimetypes
 
-from .categorize import Categorized
 from .pair import TransactionReceiptPair
 
 from .statement import (
-    Transaction,
     TranscribedStatements,
 )
 from .receipt import FileInput, TranscribedReceipt, TranscribedReceipts
@@ -24,11 +19,9 @@ async def receipts_extract(receipts: list[FileInput]) -> TranscribedReceipts:
     return await receipt_to_json(receipts)
 
 
-def get_image_mimetype(b64: str) -> str | None:
-    image_bytes = base64.b64decode(b64)
-    image_type = imghdr.what(None, h=image_bytes)
-    if image_type:
-        return f"image/{image_type}"
+def get_mimetype(filepath: str) -> str | None:
+    mime, _ = mimetypes.guess_type(filepath)
+    return mime
 
 
 async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
@@ -42,16 +35,14 @@ async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
         """
     ).strip()
 
-    image_mimetypes = [get_image_mimetype(receipt.b64) for receipt in receipts]
+    image_mimetypes = [get_mimetype(receipt.filepath) for receipt in receipts]
     for image_mimetype, receipt in zip(image_mimetypes, receipts):
         if not image_mimetype:
             raise ValueError(f"{receipt.filepath} does not have valid image mimetype")
     receipts_content = [
         {
             "type": "image_url",
-            "image_url": {
-                "url": f"data:{image_mimetype};base64,{receipt.b64}"
-            },  # TODO: not always jpeg
+            "image_url": {"url": f"data:{image_mimetype};base64,{receipt.b64}"},
         }
         for receipt, image_mimetype in zip(receipts, image_mimetypes)
     ]
