@@ -120,13 +120,14 @@ async def merge_statements_receipts(
     # - check if vendor match
     #   - we can do this the dumb way first (receipt vendor in )
     pairs: list[TransactionReceiptPair] = []
+    receipts_copy = receipts.model_copy(deep=True)
 
     for statement in statements.transcribed_statements:
         for transaction in statement.transactions:
             receipt: TranscribedReceipt | None = None
             price_match_receipts = [
                 receipt
-                for receipt in receipts.transcribed_receipts
+                for receipt in receipts_copy.transcribed_receipts
                 if receipt.grand_total == transaction.withdrawl_amount
             ]
 
@@ -134,7 +135,7 @@ async def merge_statements_receipts(
                 receipt = None
 
             elif len(price_match_receipts) == 1:
-                receipt = price_match_receipts[0]
+                [receipt] = price_match_receipts
 
             else:
                 name_match_receipts = [
@@ -143,12 +144,15 @@ async def merge_statements_receipts(
                     if await receipt.vendor_match_transaction_name(transaction)
                 ]
 
-                if len(name_match_receipts) == 1:
-                    receipt = name_match_receipts[0]
+                if name_match_receipts:
+                    # NOTE(Rehan): if multiple matches, we just hit the first
+                    [receipt, *_] = name_match_receipts
                 else:
-                    # NOTE(Rehan): Skip cases where no name match or multiple name matches
+                    # NOTE(Rehan): Skip cases where no name match
                     pass
 
+            if receipt:
+                receipts_copy.transcribed_receipts.remove(receipt)
             pairs.append(
                 TransactionReceiptPair(transaction=transaction, receipt=receipt)
             )
