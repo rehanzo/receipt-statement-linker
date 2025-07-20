@@ -12,7 +12,6 @@ import litellm
 
 
 litellm.enable_json_schema_validation
-litellm.suppress_debug_info = True
 
 
 # TODO: use enum and dispatcher to specify extractor?
