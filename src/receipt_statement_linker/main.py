@@ -12,13 +12,13 @@ async def main():
         description="Parse receipt images and output data."
     )
     parser.add_argument(
-        "--receipt-input", nargs="+", required=True, help="Receipt images to parse"
+        "--receipt-input", nargs="+", required=True, help="Receipt files to parse"
     )
     parser.add_argument(
-        "--statement-input", nargs="+", required=True, help="Statement images to parse"
+        "--statement-input", nargs="+", required=True, help="Statement files to parse"
     )
     parser.add_argument(
-        "--receipt-output", required=True, help="Filepath to output receipt data"
+        "--receipt-output", required=True, help="Filepath to output JSON receipt data"
     )
     parser.add_argument(
         "--categorize",
