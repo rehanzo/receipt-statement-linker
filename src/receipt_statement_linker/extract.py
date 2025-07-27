@@ -1,6 +1,8 @@
 from litellm.types.utils import ModelResponse
 import mimetypes
 
+from .config import Config
+
 from .pair import TransactionReceiptPair
 
 from .statement import (
@@ -51,8 +53,9 @@ async def receipt_to_json(receipts: list[FileInput]) -> TranscribedReceipts:
         {"content": system_prompt, "role": "system"},
         {"role": "user", "content": receipts_content},
     ]
+
     response = await litellm.acompletion(
-        model="gemini/gemini-2.0-flash",
+        model=Config.get_config().transcription_model,
         messages=messages,
         response_format=TranscribedReceipts,
         temperature=0,
@@ -94,7 +97,7 @@ async def statement_to_json(statements: list[FileInput]) -> TranscribedStatement
         {"role": "user", "content": statement_content},
     ]
     response = await litellm.acompletion(
-        model="gemini/gemini-2.0-flash",
+        model=Config.get_config().transcription_model,
         messages=messages,
         response_format=TranscribedStatements,
         temperature=0,

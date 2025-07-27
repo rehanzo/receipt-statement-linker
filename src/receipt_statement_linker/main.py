@@ -2,12 +2,15 @@ import argparse
 import json
 import asyncio
 
+from .config import set_logger
+
 from .categorize import categorize_pairs, set_categories_enum
 from .extract import merge_statements_receipts, receipts_extract, statements_extract
 from .receipt import FileInput
 
 
 async def main():
+    set_logger()
     parser = argparse.ArgumentParser(
         description="Parse receipt images and output data."
     )

@@ -12,6 +12,7 @@ from pydantic import BaseModel, create_model, model_serializer
 from .receipt import Receipt, ReceiptEntry, TranscribedReceipt
 from .statement import Transaction
 from .pair import TransactionReceiptPair
+from .config import set_logger, Config
 
 DEFAULT_CATEGORIES = [
     "GROCERIES",
@@ -133,22 +134,7 @@ def get_categories_basemodel(categories_enum: type[Enum]) -> type[Categories]:
 
 
 def get_user_notes() -> str:
-    xdg_data_home = os.environ.get("XDG_DATA_HOME")
-    base_dir = (
-        Path(xdg_data_home) if xdg_data_home else Path.home() / ".local" / "share"
-    )
-
-    app_dir = base_dir / "receipt_statement_linker"
-    app_dir.mkdir(parents=True, exist_ok=True)
-
-    instructions_file = app_dir / "user_instructions"
-
-    try:
-        notes = instructions_file.read_text(encoding="utf-8")
-
-        return f"# NOTES:\n{notes}"
-    except FileNotFoundError:
-        return ""
+    return Config.get_config().categorization_notes or ""
 
 
 def get_statement_categorize_prompt() -> str:
@@ -176,7 +162,7 @@ async def categorize_transactions(
         {"role": "user", "content": user_message},
     ]
     response = await litellm.acompletion(
-        model="gemini/gemini-2.0-flash",
+        model=Config.get_config().categorization_model,
         messages=messages,
         response_format=categories_basemodel,
         temperature=0,
