@@ -141,19 +141,17 @@ async def merge_statements_receipts(
                 [receipt] = price_match_receipts
 
             else:
-                name_match_receipts = [
-                    receipt
-                    for receipt in price_match_receipts
-                    if await receipt.vendor_match_transaction_name(transaction)
-                ]
+                name_match_receipt: TranscribedReceipt | None = None
 
-                if name_match_receipts:
-                    # NOTE(Rehan): if multiple matches, we just hit the first
-                    [receipt, *_] = name_match_receipts
-                else:
-                    # NOTE(Rehan): Skip cases where no name match
-                    pass
+                # NOTE(Rehan): if multiple matches, we just hit the first
+                for price_match_receipt in price_match_receipts:
+                    if await price_match_receipt.vendor_match_transaction_name(
+                        transaction
+                    ):
+                        receipt = price_match_receipt
+                        break
 
+            # NOTE(Rehan): Skip cases where no name match
             if receipt:
                 receipts_copy.transcribed_receipts.remove(receipt)
             pairs.append(
