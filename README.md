@@ -9,6 +9,15 @@ Python program that links receipts/invoices to bank statements, extracting data 
 - `--categorize` - Turn categorization on
 - `--categories category1 category2 ...` - Categories to use for categorization (optional)
 
+# Config file
+The config file can be found at `$XDG_CONFIG_HOME/receipt_statement_linker/config.toml`. The config file has the following fields:
+- `transcription_model` - model used for receipt & statement transcription.
+- `categorization_model` - model used for receipt & statement categorization, if enabled.
+- `matching_model` - model used for matching receipts to statement transactions when multiple transaction prices match the receipt price.
+- `categorization_notes` - notes to provide extra context to the model when categorizing
+
+Models are litellm model strings. You can find them by going [here](https://docs.litellm.ai/docs/providers) and selecting a provider.
+
 # Categorization
 With categorization on, each entry will include a category for the transaction, and categorization for each item within the associated receipt. The default categories are:
 
@@ -30,7 +39,12 @@ DEFAULT_CATEGORIES = [
 
 Custom categories can be specified using `--categories category1 category2 ...`.
 
-Only labels may not be enough context for the categorization. To add more context to give to the model, you can add context under `$XDG_DATA_HOME/receipt_statement_linker/user_instructions`.
+Only labels may not be enough context for the categorization. To add more context to give to the model, you can add context in the config file like so:
+```toml
+categorization_notes = "'Liberty' is a theatre, so it falls under entertainment."
+```
+
+
 
 # Example
 

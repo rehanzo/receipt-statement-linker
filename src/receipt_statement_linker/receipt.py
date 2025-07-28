@@ -5,6 +5,8 @@ from litellm.types.utils import ModelResponse
 from pydantic import BaseModel
 from datetime import datetime
 
+from .config import Config
+
 from .statement import Transaction
 
 
@@ -50,7 +52,7 @@ class TranscribedReceipt(Receipt):
             {"role": "user", "content": user_message},
         ]
         response = await litellm.acompletion(
-            model="gemini/gemini-2.0-flash",
+            model=Config.get_config().matching_model,
             messages=messages,
             temperature=0,
         )

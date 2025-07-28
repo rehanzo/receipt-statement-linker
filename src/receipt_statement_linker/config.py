@@ -23,8 +23,9 @@ def set_logger():
 @dataclass
 class Config:
     categorization_notes: str | None = None
-    transcription_model: str = "gemini/gemini-2.0-flash"
-    categorization_model: str = "gemini/gemini-2.0-flash"
+    transcription_model: str = "gemini/gemini-2.5-flash"
+    categorization_model: str = "gemini/gemini-2.5-flash"
+    matching_model: str = "gemini/gemini-2.5-flash"
 
     @classmethod
     def get_config(cls) -> "Config":
