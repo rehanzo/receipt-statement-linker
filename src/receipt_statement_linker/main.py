@@ -10,7 +10,7 @@ from .extract import merge_statements_receipts, receipts_extract, statements_ext
 from .receipt import FileInput
 
 
-async def main():
+async def _async_main():
     set_logger()
     parser = argparse.ArgumentParser(
         description="Parse receipt images and output data."
@@ -61,5 +61,9 @@ async def main():
         json.dump(pairs_json, f, indent=4)
 
 
+def main():
+    asyncio.run(_async_main())
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
