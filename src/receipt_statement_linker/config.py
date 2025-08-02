@@ -16,7 +16,7 @@ def set_logger():
     }
 
     logging_level = logging_level_envar_map[
-        os.environ.get("RECEIPT_STATEMENT_LINKER_LOG_LEVEL", "warning")
+        os.environ.get("RECEIPT_STATEMENT_LINKER_LOG_LEVEL", "error")
     ]
     logging.basicConfig(level=logging_level)
 
