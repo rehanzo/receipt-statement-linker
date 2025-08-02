@@ -9,9 +9,10 @@ _CONFIG: "Config | None" = None
 
 def set_logger():
     logging_level_envar_map = {
+        "error": logging.ERROR,
         "warning": logging.WARNING,
         "info": logging.INFO,
-        "debug": logging.INFO,
+        "debug": logging.DEBUG,
     }
 
     logging_level = logging_level_envar_map[
