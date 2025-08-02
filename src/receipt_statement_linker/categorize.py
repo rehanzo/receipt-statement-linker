@@ -218,7 +218,7 @@ async def categorize_receipt(
         {"role": "user", "content": user_message},
     ]
     response = await litellm.acompletion(
-        model="gemini/gemini-2.0-flash",
+        model="gemini/gemini-2.5-flash-lite",
         messages=messages,
         response_format=categories_basemodel,
         temperature=0,
