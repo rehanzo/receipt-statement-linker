@@ -1,4 +1,5 @@
 import argparse
+import uuid
 import json
 import asyncio
 
@@ -53,6 +54,8 @@ async def main():
         pairs = await categorize_pairs(pairs, set_categories_enum(args.categories))
 
     pairs_json = [json.loads(pair.model_dump_json()) for pair in pairs]
+    for pair_json in pairs_json:
+        pair_json["id"] = str(uuid.uuid4())
 
     with open(args.receipt_output, "w") as f:
         json.dump(pairs_json, f, indent=4)
