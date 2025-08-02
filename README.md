@@ -44,8 +44,8 @@ Only labels may not be enough context for the categorization. To add more contex
 categorization_notes = "'Liberty' is a theatre, so it falls under entertainment."
 ```
 
-
+# Supported Filetypes
+The filetypes that are supported are based on whatever model is selected. The defualt is Gemini 2.5 Flash, and supported filetypes for this model can be found [here](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash).
 
 # Example
-
 A sample invoice and statement can be found under `example/`. The output of running it on these sample docs using the args `--receipt-input example/invoice-sample.pdf --statement-input example/bank-statement-sample.pdf --categorize --receipt-output example/example.json` is found under `example/example.json`
