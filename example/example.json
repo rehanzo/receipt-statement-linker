@@ -1,0 +1,321 @@
+[
+    {
+        "transaction": {
+            "name": "Direct Deposit Salary from Soto Inc",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 1768.88,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Bill Payment Norton-Knight Service",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 611.54,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Check No. 3804 Payment to Bryan Ward",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 96.51,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "ATM Withdrawal ATM at 22049 Michael Trace Suite 500",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 976.71,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "ATM Withdrawal ATM at 41025 Yolanda Center Suite 015",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 558.95,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "ATM Withdrawal ATM at 62326 Wheeler Rapid",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 19.74,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Check No. 7658 Payment to Ashley Roberts",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 837.12,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Direct Deposit Salary from Macdonald LLC",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 3342.85,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Mobile Deposit Check from {}",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 4662.2,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Check No. 5727 Payment to Christie Bowers",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 838.96,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "ATM Withdrawal ATM at 373 Larry Key Apt. 825",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 539.43,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Bill Payment Miranda and Sons Service",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 207.95,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Check No. 6406 Payment from Wanda Hunt",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 3752.04,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Debit Transaction Chaney, Dickson and Leonard Store",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 226.83,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Transfer From Savings Account",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 1204.3,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "ATM Withdrawal ATM at 938 Roberts Dale Apt. 673",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 435.75,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "ATM Withdrawal ATM at 1768 Jimmy Center",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 490.34,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Mobile Deposit Check from {}",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 3394.46,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Bill Payment Navarro Ltd Service",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 640.46,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Check No. 9564 Payment from Megan Alexander",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 234.48,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Transfer From Savings Account",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 1753.84,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Check No. 3979 Payment from Barbara Hernandez",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 3378.84,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "ATM Withdrawal ATM at 3870 Trevor Trail",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 661.11,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Debit Transaction Reed LLC Store",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 484.85,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Debit Transaction Calderon, Cooper and Black Store",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 369.01,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Debit Transaction Oconnor Group Store",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 123.15,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Debit Transaction Young-Wright Store",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 783.53,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Bill Payment Jenkins-Willis Service",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 701.64,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Mobile Deposit Check from {}",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": null,
+            "deposit_amount": 3649.2,
+            "category": "misc"
+        },
+        "receipt": null
+    },
+    {
+        "transaction": {
+            "name": "Debit Transaction Amazon.ca*AA0AA0AA0",
+            "datetime": "2025-07-15T00:00:00Z",
+            "withdrawl_amount": 97.14,
+            "deposit_amount": null,
+            "category": "misc"
+        },
+        "receipt": {
+            "vendor": "Amazon.ca",
+            "datetime": "2025-03-23T00:00:00Z",
+            "subtotal": 85.97,
+            "grand_total": 97.14,
+            "items": [
+                {
+                    "quantity": 1,
+                    "name": "Unisex Ugly Christmas Sweatshirts 3D Digital Printed Funny Xmas Pullover Shirts",
+                    "price": 60.99,
+                    "category": "misc"
+                },
+                {
+                    "quantity": 2,
+                    "name": "BRUH Funny 3x5 Feet Tapestry Banner Flag Meme Tapestry for Bedroom Wall Hanging Decor 3x5 Feet Flag Banner Indoor Outdoor Poster",
+                    "price": 12.49,
+                    "category": "misc"
+                }
+            ]
+        }
+    }
+]
