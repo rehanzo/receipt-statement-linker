@@ -1,7 +1,5 @@
 import asyncio
 from enum import Enum, StrEnum, auto
-import os
-from pathlib import Path
 import textwrap
 import litellm
 from typing import Any, Generic, TypeVar
@@ -12,7 +10,7 @@ from pydantic import BaseModel, create_model, model_serializer
 from .receipt import Receipt, ReceiptEntry, TranscribedReceipt
 from .statement import Transaction
 from .pair import TransactionReceiptPair
-from .config import set_logger, Config
+from .config import Config
 
 DEFAULT_CATEGORIES = [
     "GROCERIES",
@@ -218,7 +216,7 @@ async def categorize_receipt(
         {"role": "user", "content": user_message},
     ]
     response = await litellm.acompletion(
-        model="gemini/gemini-2.5-flash-lite",
+        model=Config.get_config().categorization_model,
         messages=messages,
         response_format=categories_basemodel,
         temperature=0,

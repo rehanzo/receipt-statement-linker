@@ -25,7 +25,7 @@ def set_logger():
 class Config:
     categorization_notes: str | None = None
     transcription_model: str = "gemini/gemini-2.5-flash"
-    categorization_model: str = "gemini/gemini-2.5-flash"
+    categorization_model: str = "gemini/gemini-2.5-flash-lite"
     matching_model: str = "gemini/gemini-2.5-flash"
 
     @classmethod
