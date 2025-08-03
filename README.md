@@ -1,6 +1,8 @@
 # receipt-statement-linker
 
-Python program that links receipts/invoices to bank statements, extracting data from both into a single json file.
+`receipt-statement-linker` is a program that uses LLMs to extract data from bank statements and receipts, and matches the receipt to the bank statement transaction. The output is one single json file.
+
+I began budgeting and could not find any tool like this, making spending tough to categorize. If you only consider bank statements, many transactions are quite opaque (e.g. I can go to Walmart and buy an iPhone, a plunger, and some groceries all in one transaction. What do I categorize that transaction as?). If you only look at receipts, it is possible you miss transactions (e.g. I pay student loans every month, but I get no receipt). Considering both receipts and bank statements ensures everything is accounted for, while also getting item level insights through the receipt.
 
 Sample receipt:
 
