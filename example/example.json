@@ -5,10 +5,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 1768.88,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "8e258b5e-90a6-4b0b-b774-b1d55c4483f8"
+        "id": "f25ad4ca-bbfe-49f4-97f2-bdcd2483271e"
     },
     {
         "transaction": {
@@ -16,10 +16,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 611.54,
             "deposit_amount": null,
-            "category": "utilities"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "efdfd8ae-6f13-441b-9740-69035c502659"
+        "id": "dea54eb5-3e30-43df-8366-30e0ae18321c"
     },
     {
         "transaction": {
@@ -30,7 +30,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "269d1538-7ca4-4b5f-a777-be44652def26"
+        "id": "4a8c9a2b-1c96-417d-9804-47ed61431018"
     },
     {
         "transaction": {
@@ -41,7 +41,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "9a3edb9f-3f72-4b6a-bdfb-4554f8d336c9"
+        "id": "bf0dff0d-aa6c-4b51-803f-31223c255640"
     },
     {
         "transaction": {
@@ -52,7 +52,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "0e711b18-fd51-4f4c-8d85-4ad2b1af5f73"
+        "id": "0e177de3-575b-4239-98c3-71f4956e6feb"
     },
     {
         "transaction": {
@@ -63,7 +63,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "97c27cc4-9f3f-4732-a424-bd8930d3e09a"
+        "id": "6e02cb0b-5f3b-4adf-83c4-a40dbc73fa0a"
     },
     {
         "transaction": {
@@ -74,7 +74,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "b9d641b0-2cc7-422a-8226-aa2e6b4bea55"
+        "id": "2413e088-0964-4141-a736-5d960290c15d"
     },
     {
         "transaction": {
@@ -82,10 +82,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 3342.85,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "692e2dc2-1842-48ee-bdb7-733e3e3487ef"
+        "id": "107ad2ba-07cd-427f-a390-423adcc0b147"
     },
     {
         "transaction": {
@@ -93,10 +93,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 4662.2,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "4c1d221f-ea3e-4fd9-b916-1f51d928dc89"
+        "id": "eb9bd673-2fd1-42bc-97ef-cdc9e2eb829b"
     },
     {
         "transaction": {
@@ -107,7 +107,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "34b241ae-3fba-45c5-ba41-2945a2533e33"
+        "id": "428974bd-27d4-4ceb-b7e0-5727fd208957"
     },
     {
         "transaction": {
@@ -118,7 +118,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "871d9304-4cf4-4e18-83bb-207919b5e3e5"
+        "id": "d50f3144-27ac-4ed5-a430-68c8b73cc4d5"
     },
     {
         "transaction": {
@@ -126,10 +126,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 207.95,
             "deposit_amount": null,
-            "category": "utilities"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "b57facb9-79df-480a-a9ad-430151fdcb2e"
+        "id": "f991f0cb-7b82-4a22-8695-90857ee9743d"
     },
     {
         "transaction": {
@@ -137,10 +137,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 3752.04,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "cbaf8e4e-fd3c-4119-b6af-0ef25a86e960"
+        "id": "3e0f3b10-de09-4ec9-bbf2-095cbaea8387"
     },
     {
         "transaction": {
@@ -148,10 +148,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 226.83,
             "deposit_amount": null,
-            "category": "groceries"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "58d7a793-d140-42fd-9d20-2977230c0517"
+        "id": "0d448b8c-938b-4e82-8020-d86526640e6c"
     },
     {
         "transaction": {
@@ -159,10 +159,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 1204.3,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "e5ed55b2-644f-44a3-acaf-cd4a95bef48b"
+        "id": "2d867ef5-0d36-421b-8ef4-208cd0582a1a"
     },
     {
         "transaction": {
@@ -173,7 +173,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "ba31e38e-0416-42fa-8662-e091d19edfe7"
+        "id": "d9c57afc-e5c2-42d5-a62d-f34685ecdfea"
     },
     {
         "transaction": {
@@ -184,7 +184,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "886fe9be-e195-47a6-9301-1c754efece2a"
+        "id": "0432803f-9b81-453d-b827-c43e4056508c"
     },
     {
         "transaction": {
@@ -192,10 +192,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 3394.46,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "07b2c06a-e4aa-44e3-91ce-706f9e4e5d69"
+        "id": "79efcf07-2f4e-4ee2-99fe-dfc73bfc046c"
     },
     {
         "transaction": {
@@ -203,10 +203,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 640.46,
             "deposit_amount": null,
-            "category": "utilities"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "9328399b-ddd7-415e-af6a-65b7eeb87255"
+        "id": "d93233fb-3d1b-44b2-85bb-2350aeffdad4"
     },
     {
         "transaction": {
@@ -214,10 +214,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 234.48,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "d2c9a55f-acf4-437f-9f85-c52723d02fef"
+        "id": "ff7f6180-3d42-48cc-8d62-cc8e74be7b44"
     },
     {
         "transaction": {
@@ -225,10 +225,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 1753.84,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "97b0bcd7-0620-47cc-816d-28a4763252be"
+        "id": "f4b63268-5504-48d2-b7bd-819d33d7453d"
     },
     {
         "transaction": {
@@ -236,10 +236,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 3378.84,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "156b660c-8481-447a-a82c-a4dcf35dbc0c"
+        "id": "27245ca1-08df-42fe-8c25-3afd754061a4"
     },
     {
         "transaction": {
@@ -250,7 +250,7 @@
             "category": "misc"
         },
         "receipt": null,
-        "id": "9f968d4e-5c2a-455a-854c-5572671f2de8"
+        "id": "06b3f061-1810-4125-af61-88880941426c"
     },
     {
         "transaction": {
@@ -258,10 +258,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 484.85,
             "deposit_amount": null,
-            "category": "groceries"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "afb8f4f8-e4aa-4a27-b62a-74b7668c2a92"
+        "id": "bd3e0020-0c3a-4b96-b923-d71e4411d413"
     },
     {
         "transaction": {
@@ -269,10 +269,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 369.01,
             "deposit_amount": null,
-            "category": "groceries"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "d42c8ea0-f012-499e-ba2e-c310d73803ee"
+        "id": "94fe03ea-08f6-4f17-b80c-93d97d24117d"
     },
     {
         "transaction": {
@@ -280,10 +280,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 123.15,
             "deposit_amount": null,
-            "category": "groceries"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "99f4c391-9a87-46f4-a6de-2ffd34fbb6d0"
+        "id": "951433b5-7e40-4c76-b73a-edcf1a9082a1"
     },
     {
         "transaction": {
@@ -291,10 +291,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 783.53,
             "deposit_amount": null,
-            "category": "groceries"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "ed4cc74d-ba23-4502-abb6-22cfb1b3130b"
+        "id": "d5854897-79e2-4bef-bb97-d7769d4fd463"
     },
     {
         "transaction": {
@@ -302,10 +302,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 701.64,
             "deposit_amount": null,
-            "category": "utilities"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "1e90c7a1-5394-4f8a-92de-9734ccacde85"
+        "id": "0a20039a-2381-4b36-ba17-cd6ac1107383"
     },
     {
         "transaction": {
@@ -313,10 +313,10 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": null,
             "deposit_amount": 3649.2,
-            "category": "savings_and_investments"
+            "category": "misc"
         },
         "receipt": null,
-        "id": "03b0e521-04df-40b8-bfc6-f40d1141e8e2"
+        "id": "b1b4bbcc-2698-48cf-bbb2-e99ae35753a6"
     },
     {
         "transaction": {
@@ -324,7 +324,7 @@
             "datetime": "2025-07-15T00:00:00Z",
             "withdrawl_amount": 97.14,
             "deposit_amount": null,
-            "category": "groceries"
+            "category": "misc"
         },
         "receipt": {
             "vendor": "Amazon.ca",
@@ -336,7 +336,7 @@
                     "quantity": 1,
                     "name": "Unisex Ugly Christmas Sweatshirts 3D Digital Printed Funny Xmas Pullover Shirts",
                     "price": 60.99,
-                    "category": "misc"
+                    "category": "personal_care"
                 },
                 {
                     "quantity": 2,
@@ -346,6 +346,6 @@
                 }
             ]
         },
-        "id": "16ff43ce-aade-4f9c-aac9-9574fd5c6518"
+        "id": "30696cf0-cba9-4736-9628-bafb5c8647bf"
     }
 ]
