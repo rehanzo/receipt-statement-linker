@@ -2,7 +2,23 @@
 
 Python program that links receipts/invoices to bank statements, extracting data from both into a single json file.
 
-# Comamnd Line Options
+Sample receipt:
+
+<img width="856" height="738" alt="image" src="https://github.com/user-attachments/assets/a9e1d095-44b4-44f1-9b6b-fe4bd6897e6f" />
+
+Sample bank statement transaction:
+
+<img width="639" height="65" alt="image" src="https://github.com/user-attachments/assets/5542d8ac-cc42-42ff-b523-b39f36569579" />
+
+Sample linker output:
+
+<img width="1257" height="601" alt="image" src="https://github.com/user-attachments/assets/e7e73bf0-049b-49d4-ac68-2288b3c6f94a" />
+
+
+
+
+
+# Command Line Options
 - `--receipt-input receipt.jpg` - Receipt/invoice files to process
 - `--statement-input statement.pdf` - Bank statement files to process
 - `--receipt-output output.json` - JSON filepath for output
