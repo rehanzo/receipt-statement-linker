@@ -63,6 +63,15 @@ categorization_notes = "'Liberty' is a theatre, so it falls under entertainment.
 # Supported Filetypes
 The filetypes that are supported are based on whatever model is selected. The defualt is Gemini 2.5 Flash, and supported filetypes for this model can be found [here](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash).
 
+# Install/Run
+Using `uv`, you can run the program with `uvx receipt-statement-linker` or install with:
+
+```bash
+uv tool install receipt-statement-linker
+```
+
+and then run with `receipt-statement-linker`.
+
 # Example
 A sample invoice and statement can be found under `example/`. The output of running the following command can be found at `example/example.json`:
 ```bash
